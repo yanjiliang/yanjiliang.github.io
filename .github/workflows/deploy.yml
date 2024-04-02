@@ -10,7 +10,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: docs
 
@@ -32,5 +32,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           repository-name: yanjiliang/yanjiliang.github.io
+          key: ${{ secrets.GHP_TOKEN }}
           branch: gh-pages
           folder: docs/.vitepress/dist
