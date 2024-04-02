@@ -31,14 +31,6 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.6.1
         with:
-          ACCESS_TOKEN: ${{ secrets.GHP_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: docs/.vitepress/dist
-          BUILD_SCRIPT: npm run docs:build
-          CLEAN_FOLDER: true
-          CLEAN_OUTPUT: true
-          CLEAN_BRANCH: false
-          CACHE_PATH: .pnpm-store
-          CACHE_TTL: '1h'
-          CACHE_PATH_PATTERN: 'node_modules'
-          CACHE_PATH_GLOB: 'pnpm-lock.yaml'
+          repository-name: yanjiliang/yanjiliang.github.io
+          branch: gh-pages
+          folder: docs/.vitepress/dist
