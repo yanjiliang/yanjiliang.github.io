@@ -29,7 +29,7 @@ jobs:
         run: pnpm run docs:build
 
       - name: Deploy to GitHub Pages
-        uses: JamesIves/github-pages-deploy-action@4.6.1
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
         with:
           repository-name: yanjiliang/yanjiliang.github.io
           branch: gh-pages
