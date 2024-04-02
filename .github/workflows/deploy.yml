@@ -1,0 +1,46 @@
+name: 自动部署到GitHub Page
+
+on:
+ push:
+   branches:
+     - main
+     - docs
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          ref: docs
+
+      - name: Setup Node.js & Pnpm
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.0.0'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build vitepress
+        run: pnpm run docs:build
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.6.1
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: docs
+          REPOSITORY_NAME: ${{ github.repository }}
+          FOLDER: docs/.vitepress/dist
+          BUILD_SCRIPT: npm run docs:build
+          CLEAN_FOLDER: true
+          CLEAN_OUTPUT: true
+          CLEAN_BRANCH: false
+          CACHE_PATH: .pnpm-store
+          CACHE_TTL: '1h'
+          CACHE_PATH_PATTERN: 'node_modules'
+          CACHE_PATH_GLOB: 'pnpm-lock.yaml'
