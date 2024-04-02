@@ -3,7 +3,6 @@ name: 自动部署到GitHub Page
 on:
  push:
    branches:
-     - main
      - docs
 jobs:
   build-and-deploy:
@@ -32,9 +31,8 @@ jobs:
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.6.1
         with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: docs
-          REPOSITORY_NAME: ${{ github.repository }}
+          ACCESS_TOKEN: ${{ secrets.GHP_TOKEN }}
+          BRANCH: gh-pages
           FOLDER: docs/.vitepress/dist
           BUILD_SCRIPT: npm run docs:build
           CLEAN_FOLDER: true
