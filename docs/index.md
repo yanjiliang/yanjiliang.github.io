@@ -5,21 +5,21 @@ layout: home
 hero:
   name: "Laosi Remote Web3"
   text: "Record my transition from Web2 to Web3."
-  tagline: My great project tagline
+  tagline: 一个社畜的挣扎记录
   actions:
     - theme: brand
-      text: Markdown Examples
-      link: /markdown-examples
+      text: Web2
+      link: /web2/index
     - theme: alt
-      text: API Examples
-      link: /api-examples
+      text: Web3
+      link: /web3/index
 
 features:
-  - title: Feature A
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  - title: 技术记录
+    details: 闲散的记录一些技术文档，可能是自己总结，也有可能是CV大法
+  - title: 吐槽
+    details: 纯纯闲的
+  - title: 英语
+    details: 社畜的英语学习笔记
 ---
 

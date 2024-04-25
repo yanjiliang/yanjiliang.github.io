@@ -7,22 +7,37 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '首页', link: '/' },
+      { text: '英语', link: '/language/index' },
+      { text: '后端', link: '/backend/index' }
     ],
 
-    sidebar: [
-      {
-        text: 'Examples',
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' }
-        ]
-      }
-    ],
+    sidebar: {
+      '/web2/': [
+        {
+          text: 'Web2',
+          items: [
+            { text: 'JavaScript', link: '/web2/javascript/index' },
+            { text: 'TypeScript', link: '/web2/typescript/index' },
+            { text: 'Node', link: '/web2/node/index' },
+            { text: 'React', link: '/web2/react/index' },
+            { text: 'Vue', link: '/web2/vue/index' },
+            { text: 'PackTools', link: '/web2/pack-tools/index' },
+          ]
+        }
+      ],
+      '/web3/': [
+        {
+          text: 'Web3',
+          items: [
+            { text: '基础知识', link: '/web3/basic/index' },
+          ]
+        }
+      ]
+    },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/yanjiliang/yanjiliang.github.io/' }
     ]
   }
 })
