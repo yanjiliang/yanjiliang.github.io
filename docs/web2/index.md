@@ -9,7 +9,7 @@ anyway,想到什么记录什么吧！
 
 先大概列个清单,刚好梳理了，方便面试
 
-- [JavaScript](/docs/web2/javascript.md)
+- [JavaScript]()
 - TypeScript
 - Node
 - React

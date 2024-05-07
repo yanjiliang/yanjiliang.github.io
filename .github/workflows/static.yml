@@ -23,9 +23,7 @@ jobs:
         with:
           node-version: 20
           cache: pnpm
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-      - name: Install dependencies
+      - uses: actions/configure-pages@v4
       - run: npm i pnpm -g
       - run: pnpm install
 
