@@ -14,7 +14,8 @@ on:
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
   contents: read
-  id-token: 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
+  pages: write
+  id-token: read
 
 # Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
 # However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
@@ -61,3 +62,5 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+        with:
+          token: ${ secret.GHP_TOKEN }
