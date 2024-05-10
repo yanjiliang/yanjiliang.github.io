@@ -113,3 +113,59 @@ countDown(endTime, (days, hours, minutes, seconds) => {
 - async属性表示异步执行脚本，即在加载完成后，立即执行该脚本，但不保证脚本的执行顺序。
 - 需要注意的是，使用defer或async属性时，脚本将不会阻塞页面的加载和渲染。
 - 如果需要确保脚本的执行顺序，可以使用回调函数或Promise来实现。
+
+# 8. 用JS实现一个cookies解析函数，输出结果为一个对象
+```js
+function parseCookies(cookieStr) {
+    const res = {};
+    // 分割字符串，并方便后续遍历键值对处理
+    const cookies = cookieStr.split(';').map(i => i.trim());
+    
+    // 遍历处理
+    cookies.forEach((cookie) => {
+        // 有效键值对由 ‘=’ 连接
+        const separatorIndex = cookie.indexOf('=');
+        if(separatorIndex === -1) {
+            return; // 说明不是有效的键值对
+        }
+        
+        let key = cookie.substring(0, separatorIndex);
+        let value = cookie.substring(separatorIndex + 1);
+        
+        key = decodeURLComponent(key);
+        value = decodeURLComponent(value);
+        
+        res[key] = value
+    })
+    
+    return res;
+    
+}
+```
+
+# 9. husky的原理是什么？
+Husky是一个基于Node的Git钩子管理工具，用在工作流程中强制执行Git钩子。Husky允许自定义脚本，这些脚本会在不同的Git生命周期时间触发执行，比如提交、推送、合并前
+
+使用场景：
+- 提交前运行代码规范检查，保证代码提交质量
+- 保持代码风格统一
+- 自动化流程，如自动生成CHANGELOG、自动运行测试等
+- 提交信息格式化检查
+- 自动修复一些常见的代码错误
+
+支持的Git钩子：
+- apply -patch-msg:应用一个补丁到暂存区并生成提交信息
+- pre-apply-patch: 应用一个补丁之前
+- post-apply-patch: 应用补丁后
+- pre-commit: 提交前，检查代码，分析代码风格
+- prepare-commit-msg: 生成提交信息
+- commit-msg: 提交信息格式化检查
+- post-commit: 提交后
+- pre-rebase: 变基之前
+- post-checkout: 切换分支后
+- post-merge: 合并分支后
+- pre-push: 推送前
+- pre-receive: 接收到推送前
+- update: 远程分支更新时
+- post-receive: 接收到推送后
+- post-update: 远程分支更新后

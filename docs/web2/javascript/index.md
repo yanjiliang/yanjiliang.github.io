@@ -1,5 +1,7 @@
 # JavaScript
 
+[面试题](./interview.md)
+
 1. 暂时性死区（temporal dead zone TDZ）\
 ES6明确规定，在使用let和const命令进行变量声明的时候，在当前区块，形成了封闭作用域，如果在\变量声明之前使用变量，则会报错
 ```js
