@@ -23,6 +23,7 @@ export default defineConfig({
             { text: 'React', link: '/web2/react/index' },
             { text: 'Vue', link: '/web2/vue/index' },
             { text: 'PackTools', link: '/web2/pack-tools/index' },
+            { text: 'NextJS', link: '/web2/NextJS/index' },
           ]
         }
       ],
