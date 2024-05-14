@@ -4,7 +4,7 @@
 
 [手写题](./code.md)
 
-1. 暂时性死区（temporal dead zone TDZ）\
+## 1. 暂时性死区（temporal dead zone TDZ）\
 ES6明确规定，在使用let和const命令进行变量声明的时候，在当前区块，形成了封闭作用域，如果在\变量声明之前使用变量，则会报错
 ```js
 var temp = "lalala";
@@ -34,7 +34,7 @@ let x = x; // ReferenceError: x is not defined
 总之，暂时性死区的本质就是，只要一进入当前作用域，所要使用的变量就已经存在了，但是不可获取，只有等到声明变量的那一行代码出现，才可以获取和使用该变量
 
 
-2. Symbol
+## 2. Symbol
 ```js
 const s1 = Symbol();
 typeof s1; // 'symbol'
@@ -70,7 +70,7 @@ s1 === s2; // true
 ```
 > Symbol.for()的全局登记特性，可以在不同的iframe和service work中取到同一个值
 
-3、Set
+## 3、Set
 > Set类似数组，成员值唯一，没有重复的值，Set本身是一个构造函数，用来生成Set数据结构
 ```js
 [...new Set(array)] // 用来对数组进行去重
@@ -95,7 +95,7 @@ ws.add('new value'); // 报错
 ws.add(Symbol('new value')); // 可以
 ```
 
-4、Map
+## 4、Map
 > 类似对象，但键值不在局限于字符串
 > Map的键跟内存地址绑定，只要内存地址不一样，值相同也会视为两个键
 
@@ -108,3 +108,35 @@ ws.add(Symbol('new value')); // 可以
 
 WeakMap
 > 只能对象（非null）和Symbol作为键名
+
+## 5.Generator生成器
+Generator是ES6提供过的一种异步编程解决方案。执行Generator函数会返回一个遍历器对象。
+```js
+function* firstGenerator() {
+    yield 'ha';
+    yield 'haa';
+    return 'end';
+}
+
+const haha = firstGenerator()
+
+haha.next();
+// { value: 'ha', done: false }
+haha.next();
+// { value: 'haa', done: false }
+haha.next();
+// { value: 'end', done: true }
+
+haha.next();
+// { value: undefined, done: true }
+```
+调用Generator函数，返回一个遍历器对象`haha`，代表Generator函数内部指针，每次遍历器对象调用`next`方法，就会返回一个有着`value`和`done`两个属性的对象。
+`value`代表当前内部的状态取值，`done`属性表示遍历是否结束。
+
+```js
+function* gen(){}
+
+const g = gen();
+
+g[Symbol.iterator] === g // true
+```
