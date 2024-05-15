@@ -24,6 +24,7 @@ export default defineConfig({
             { text: 'Vue', link: '/web2/vue/index' },
             { text: 'PackTools', link: '/web2/pack-tools/index' },
             { text: 'NextJS', link: '/web2/NextJS/index' },
+            { text: '小程序', link: '/web2/miniProgram/index' }
           ]
         }
       ],

@@ -200,3 +200,31 @@ const flatArrN = function(arr, n = 1) {
 ```js
 
 ```
+
+## 10.手写实现useEffect
+```ts
+// 依赖收集
+const allDeps: Array<any[] | undefined> = [];
+// 副作用
+let effectCursor: number = 0
+
+function useEffect(fn: () => void, deps?: any[]) {
+    if(!deps){
+      fn();
+      allDeps[effectCursor] = deps;
+      effectCursor++;
+      return;
+    }
+    const _deps = deps[effectCursor];
+    const hasChangeDeps = _deps
+      ? deps.some((el, i) => el !== _deps[i])
+      : true
+  
+    if(hasChangedDeps) {
+        fn();
+        allDeps[effectCursor] = deps;
+    }
+    effectCursor++;
+}
+
+```
