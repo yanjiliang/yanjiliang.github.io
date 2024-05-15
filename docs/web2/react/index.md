@@ -78,3 +78,52 @@ class ErrorBoundary extends React.Component {
 </ErrorBoundary>
 
 ```
+
+## 3.useTransition
+:::info
+`useTransition` is a React hook that lets you update the state without blocking UI
+:::
+
+Usages:
+- Marking a state update as a non-blocking transition
+```js
+import { useTransition, useState } from "react";
+
+function Page(){
+    const [isPending, startTransition] = useTransition();
+    // isPending: whether there is a pending transition
+    // startTransition: a function to let you mark a state update as a transiton, received a callback as prop
+    const [name, setName] = useState('laosi');
+    
+    startTransition(() => {
+        setName('haha');
+    })
+}
+
+```
+- Updating the parent component in a transition
+- Display a pending visual state during the transition.
+- Preventing unwanted loading indicators
+- Building a Suspense-enabled router
+- Displaying an error to users with an error boundary
+
+## 4.useDeferredValue
+:::info
+`useDeferredValue` is a React hook that lets you defer updating a part of the UI.
+:::
+
+```js
+import { useDeferredValue, useState } from 'react';
+
+function SearchPage(){
+    const [query, setQuery] = useState('');
+    const deferredQuery = useDeferredValue(query);
+    // receive a any type value that you want to defer
+}
+```
+
+Usages:
+- Show stale content while fresh content loading
+- Indicating that the content is stale.
+- Deferring re-rending for a part of the UI.
+
