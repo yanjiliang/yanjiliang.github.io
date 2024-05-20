@@ -80,10 +80,10 @@ npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.
 Taliwind的使用便不再赘述，不会的同学去官方文档[Taliwind](https://tailwindcss.com/)学吧，装了编辑器的提示插件，还是挺方便的。
 
 `clsx`的用法
-```tsx
+```
 // /app/ui/invoices/status.tsx
 import clsx from 'clsx';
- 
+
 export default function InvoiceStatus({ status }: { status: string }) {
   return (
     <span
@@ -136,7 +136,7 @@ export default function RootLayout({
 #### 为什么优化图片？
 
 在常规的HTML文件中
-```html
+```js
 <img
     src="/hero.png"
     alt="Screenshots of dashboard project showing desktop version"
@@ -183,5 +183,66 @@ export default function Page() {
 ### Chapter 4
 
 #### Nested routing嵌套路由
-Nextjs使用文件系统路由，每个文件夹代表一个路由映射到URL，额，这么说有点模糊，上图示
+Next.js使用文件系统路由，每个文件夹代表一个路由映射到URL，额，这么说有点模糊，上图示
 ![explain file-system route](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Ffolders-to-url-segments.png&w=3840&q=75)
+
+Next.js有两个特殊的命名文件：`layout.tsx`和`page.tsx`
+`page.tsx`是一个特殊的NextJS文件，是一个组件的导出文件，举个栗子：
+`/app/page.tsx`对应的路由是`/`
+![file-system route example](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fdashboard-route.png&w=3840&q=75)
+
+即：创建的文件夹名是路由名称，文件夹下的`page.tsx`是入口文件。`/app`则是根路由
+
+如需嵌套子路由页面，即在该文件夹下，创建子路由的文件夹及对应的`page.tsx`文件
+![nested route example](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Frouting-solution.png&w=3840&q=75)
+
+`layout.tsx`文件接收children参数，这个children可以是一个page或者layout.
+
+![partial rendering](https://nextjs.org/_next/image?url=%2Flearn%2Flight%2Fpartial-rendering-dashboard.png&w=3840&q=75)
+
+显而易见的在`/app`文件夹根目录的`layout.tsx`便是整个项目的root layout
+
+### Chapter 5 Navigating Between Pages页面之间的跳转
+最基础的我们可以是用a标签进行页面的跳转，但是使用a标签跳转，会导致页面的全面刷新。
+
+`next/link`模块为了提升跳转的体验，NextJS自动地通过路由将应用进行了code splits（代码拆分）.这不同于传统的SPA，初始化加载就加载了所有应用的代码。
+
+通过路由进行的代码拆分，意味着每个页面都是独立的。如果一个页面出现了报错，其他页面依然正常工作。
+此外，在生产环境下，NextJS会后台自动预拉取页面出现的`<Link>`标签涉及的code
+How Routing and Navigation Works?
+1. Code Splitting
+通过路由拆分代码，只有当前路由所需的代码会加载，不会加载无关代码
+2. Prefetching：只会在生产环境生效，dev环境不会
+可以在用户浏览前，后台提前预加载对应路由的代码，有两种方式会在NextJS中自动触发此机制：
+- <Link>组件：当出现在用户的可见范围内，则会在后台自动预加载`<Link>`对应的代码
+- `router.prefetch()`：通过`useRouter`这个hook函数可以预加载指定的route
+:::waning
+Prefetching is not enabled in development, only in production.
+:::
+3. Caching
+预加载的以及浏览过的都会被缓存在Router Cache中
+4. Partial Rendering
+只会重新渲染有改变部分的，减少了数据传输量以及执行次数。提升渲染性能。
+5. Soft Navigation
+当变更的部分渲染时，不会影响preserved的State
+6. Back and Forward Navigation
+Router Cache维护前进及后退的路由，以及重用缓存
+7. Routing between `pages` and `app/`
+
+- usePathname()获取当前的link.href
+
+### Chapter 6 Setting up database on Vercel
+在Vercel部署了Next项目后，在Storage标签栏下，可以创建一个database，创建完成后，可以将`.env.local`下的内容：
+```js
+POSTGRES_URL="*****"
+POSTGRES_PRISMA_URL="*****"
+POSTGRES_URL_NO_SSL="*****"
+POSTGRES_URL_NON_POOLING="*****"
+POSTGRES_USER="*****"
+POSTGRES_HOST="*****"
+POSTGRES_PASSWORD="*****"
+POSTGRES_DATABASE="*****"
+```
+复制到项目中的`.env`文件中，该文件应该添加到`.gitignore`文件中，防止泄露
+
+···npm i @vercel/postgres···
