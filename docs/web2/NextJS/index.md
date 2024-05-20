@@ -1,5 +1,7 @@
 # Next Guide
 
+[入门教程](./new-begainer-guide.md)
+
 ## 1. Streaming
 :::info
 Streaming is a data transfer technique that allows you to break down a route into smaller "chunks" and progressively stream them from the server to the client as they become ready.
