@@ -1,0 +1,1 @@
+import{_ as e,c as a,o as i,a3 as t}from"./chunks/framework.Dcugq_a2.js";const m=JSON.parse('{"title":"Web2相关知识集锦","description":"","frontmatter":{},"headers":[],"relativePath":"web2/index.md","filePath":"web2/index.md"}'),r={name:"web2/index.md"},l=t("",4),o=[l];function c(s,n,_,d,p,h){return i(),a("div",null,o)}const b=e(r,[["render",c]]);export{m as __pageData,b as default};
