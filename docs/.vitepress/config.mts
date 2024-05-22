@@ -15,8 +15,9 @@ export default defineConfig({
     sidebar: {
       '/web2/': [
         {
-          text: 'Web2',
+          text: 'Web2相关',
           items: [
+            // { text: 'Web2', link:'/web2/index' }
             { text: 'JavaScript', link: '/web2/javascript/index' },
             { text: 'TypeScript', link: '/web2/typescript/index' },
             { text: 'Node', link: '/web2/node/index' },
@@ -24,7 +25,18 @@ export default defineConfig({
             { text: 'Vue', link: '/web2/vue/index' },
             { text: 'PackTools', link: '/web2/pack-tools/index' },
             { text: 'NextJS', link: '/web2/NextJS/index' },
-            { text: '小程序', link: '/web2/miniProgram/index' }
+            { text: '小程序', link: '/web2/miniProgram/index' },
+            { text: 'Prisma', link: '/web2/Prisma/index' },
+          ]
+        }
+      ],
+      '/web2/NextJS/': [
+        {
+          text: 'Next.js',
+          items: [
+            { text: '基础知识', link: '/web2/NextJS/basic-knowledge.md' },
+            { text: 'clsx', link: '/web2/NextJS/clsx.md' },
+            { text: '上手教程解析', link: '/web2/NextJS/new-begainer-guide.md' },
           ]
         }
       ],

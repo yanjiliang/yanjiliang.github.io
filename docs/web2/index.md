@@ -9,9 +9,13 @@ anyway,想到什么记录什么吧！
 
 先大概列个清单,刚好梳理了，方便面试
 
-- [JavaScript]()
-- TypeScript
-- Node
-- React
-- Vue
-- Webpack\Vite
+- [JavaScript](./javascript/index.md)
+- [TypeScript](./typescript/index.md)
+- [Node](./node/index.md)
+- [React](./react/index.md)
+- [Vue](./vue/index.md)
+- [Pack-tools](./pack-tools/index.md)
+- [ReactNative](./ReactNative/index.md)
+- [Next.js](./NextJS/index.md)
+- [miniProgram](./miniProgram/index.md)
+- [Prisma](./Prisma/index.md)

@@ -65,7 +65,7 @@ Here‘s an overview of features you'll learn about in this course:
 
 元数据：如何添加元数据，以及应用的社交分享
 
-### Chapter 1
+## Chapter 1
 
 通过create-next-app脚手架命令创建了一个模版项目
 
@@ -83,7 +83,7 @@ npx create-next-app@latest nextjs-dashboard --use-npm --example "https://github.
 - `/scripts`:放置脚本文件
 - Config Files: `next.config.js`配置项目文件
 
-### Chapter 2 CSS Styling
+## Chapter 2 CSS Styling
 
 ::: info
 
@@ -117,7 +117,7 @@ export default function InvoiceStatus({ status }: { status: string }) {
 )}
 ```
 
-### Chapter 3 Optimizing Fonts and Images
+## Chapter 3 Optimizing Fonts and Images
 
 #### 问什么要优化字体？
 
@@ -206,7 +206,7 @@ export default function Page() {
 }
 ```
 
-### Chapter 4
+## Chapter 4
 
 #### Nested routing嵌套路由
 
@@ -238,7 +238,7 @@ Next.js有两个特殊的命名文件：`layout.tsx`和`page.tsx`
 
 [//]: # ()
 
-### Chapter 5 Navigating Between Pages页面之间的跳转
+## Chapter 5 Navigating Between Pages页面之间的跳转
 
 最基础的我们可以是用a标签进行页面的跳转，但是使用a标签跳转，会导致页面的全面刷新。
 
@@ -275,7 +275,7 @@ Prefetching is not enabled in development, only in production.
 
 - usePathname()获取当前的link.href
 
-### Chapter 6 Setting up database on Vercel
+## Chapter 6 Setting up database on Vercel
 
 在Vercel部署了Next项目后，在Storage标签栏下，可以创建一个database，创建完成后，可以将`.env.local`下的内容：
 
@@ -321,7 +321,7 @@ export default async function Page() {
 }
 ```
 
-### Chapter 8 Static and Dynamic Rendering
+## Chapter 8 Static and Dynamic Rendering
 
 使用next/cache中的unstable_noStore可以防止内容被缓存
 ```ts
@@ -373,4 +373,134 @@ export async function fetchInvoiceById(query: string) {
 :::info
 `unstable_noStore` is an experimental API and may change in the future. If you prefer to use a stable API in your own projects, you can also use the Segment Config Option export const dynamic = "force-dynamic".
 :::
+
+## Chapter 9 Static and Dynamic Content Rendering
+
+NextJS对于静态和动态内容做了不同的渲染逻辑处理，不依赖数据请求的静态内容，可以快速、即时的进行渲染，提高用户体验。
+而动态内容部分，利用`Suspense`包裹，并行的流传输，减少整个页面的加载时间，加载中则展示`fallback`
+
+### 总结：
+1. Created a database in the same region as your application code to reduce latency between your server and database.
+应用与数据库创建在同一个地址，减少了服务端与数据库的延迟
+2. Fetched data on the server with React Server Components. This allows you to keep expensive data fetches and logic on the server, reduces the client-side JavaScript bundle, and prevents your database secrets from being exposed to the client.
+使用RSC请求数据，这样可以把敏感的数据请求和逻辑放在服务端，减少客户端代码块的体积，并且避免数据库的私密信息暴露在客户端。
+3. Used SQL to only fetch the data you needed, reducing the amount of data transferred for each request and the amount of JavaScript needed to transform the data in-memory.
+用SQL拉取真正需要的数据，减少每次请求的数据传输量和传输到内存数据的JS代码量
+4. Parallelize data fetching with JavaScript - where it made sense to do so.
+在真正需要，即有意义的场景，并行的用JS拉取数据
+5. Implemented Streaming to prevent slow data requests from blocking your whole page, and to allow the user to start interacting with the UI without waiting for everything to load.
+应用流传输避免慢速的数据请求阻塞整个页面，并允许用户无需等所有的内容全部加载即可与UI进行交互
+6. Move data fetching down to the components that need it, thus isolating which parts of your routes should be dynamic in preparation for Partial Prerendering.
+将数据请求放在具体需要的组件中，可以区分页面中哪些是动态部分，预渲染
+
+## Add Search and Pagination
+
+### URL search params
+- Bookmarkable and Shareable URLs：由于搜索的参数在URL，当用户保存为书签的时候，会将当天的state一并保存了，包括搜索查询、过滤等，也便于分享
+- Server-side rendering and initial load: 可以在服务端使用URL参数，进行初始化渲染。更好地进行服务端渲染。
+- Analysing and Tracking: URL参数更便于追踪用户的行为，而不用额外的客户端逻辑
+
+"use client" -- 表明这是一个客户端组件，可以使用时间监听和hooks
+
+## Chapter 12 Server Actions
+
+```tsx
+// Server Component
+export default function Page() {
+  // Action
+  async function create(formData: FormData) {
+    'use server';
+ 
+    // Logic to mutate data...
+  }
+ 
+  // Invoke the action using the "action" attribute
+  return <form action={create}>...</form>;
+}
+```
+
+## Chapter 13 Handling Errors
+通过创建指定名称的特定文件处理错误：`error.tsx`和`not-found.tsx`
+`error.tsx`: 会拦截所有不可预测的报错
+- error: 错误对象
+- reset：重新渲染当前页面的方法
+
+```tsx
+'use client';
+ 
+import { useEffect } from 'react';
+ 
+export default function Error({
+  error,
+  reset,
+}: {
+  error: Error & { digest?: string };
+  reset: () => void;
+}) {
+  useEffect(() => {
+    // Optionally log the error to an error reporting service
+    console.error(error);
+  }, [error]);
+ 
+  return (
+    <main className="flex h-full flex-col items-center justify-center">
+      <h2 className="text-center">Something went wrong!</h2>
+      <button
+        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+        onClick={
+          // Attempt to recover by trying to re-render the invoices route
+          () => reset()
+        }
+      >
+        Try again
+      </button>
+    </main>
+  );
+}
+```
+
+`not-found.tsx`则是细化了404这一错误场景的处理需搭配`notFound()`方法配合使用
+```tsx
+import { fetchInvoiceById, fetchCustomers } from '@/app/lib/data';
+import { updateInvoice } from '@/app/lib/actions';
+import { notFound } from 'next/navigation';
+ 
+export default async function Page({ params }: { params: { id: string } }) {
+  const id = params.id;
+  const [invoice, customers] = await Promise.all([
+    fetchInvoiceById(id),
+    fetchCustomers(),
+  ]);
+ 
+  if (!invoice) {
+    notFound();
+  }
+ 
+  // ...
+}
+```
+
+```tsx
+// not-found.tsx
+import Link from 'next/link';
+import { FaceFrownIcon } from '@heroicons/react/24/outline';
+
+export default function NotFound() {
+  return (
+    <main className="flex h-full flex-col items-center justify-center gap-2">
+      <FaceFrownIcon className="w-10 text-gray-400" />
+      <h2 className="text-xl font-semibold">404 Not Found</h2>
+      <p>Could not find the requested invoice.</p>
+      <Link
+        href="/dashboard/invoices"
+        className="mt-4 rounded-md bg-blue-500 px-4 py-2 text-sm text-white transition-colors hover:bg-blue-400"
+      >
+        Go Back
+      </Link>
+    </main>
+  );
+}
+```
+
+## Chapter 14 improving accessibility
 
