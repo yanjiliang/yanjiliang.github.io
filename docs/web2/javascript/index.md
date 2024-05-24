@@ -140,3 +140,5 @@ const g = gen();
 
 g[Symbol.iterator] === g // true
 ```
+
+## 6.

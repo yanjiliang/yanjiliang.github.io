@@ -9,7 +9,8 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '英语', link: '/language/index' },
-      { text: '后端', link: '/backend/index' }
+      { text: '后端', link: '/backend/index' },
+      { text: '算法', link: '/algorithm/index' }
     ],
 
     sidebar: {
