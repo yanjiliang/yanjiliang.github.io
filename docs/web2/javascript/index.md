@@ -4,7 +4,7 @@
 
 [手写题](./code.md)
 
-## 1. 暂时性死区（temporal dead zone TDZ）\
+## 1. 暂时性死区（temporal dead zone TDZ）
 ES6明确规定，在使用let和const命令进行变量声明的时候，在当前区块，形成了封闭作用域，如果在\变量声明之前使用变量，则会报错
 ```js
 var temp = "lalala";
@@ -70,7 +70,7 @@ s1 === s2; // true
 ```
 > Symbol.for()的全局登记特性，可以在不同的iframe和service work中取到同一个值
 
-## 3、Set
+## 3. Set
 > Set类似数组，成员值唯一，没有重复的值，Set本身是一个构造函数，用来生成Set数据结构
 ```js
 [...new Set(array)] // 用来对数组进行去重
@@ -95,7 +95,7 @@ ws.add('new value'); // 报错
 ws.add(Symbol('new value')); // 可以
 ```
 
-## 4、Map
+## 4. Map
 > 类似对象，但键值不在局限于字符串
 > Map的键跟内存地址绑定，只要内存地址不一样，值相同也会视为两个键
 
@@ -109,7 +109,7 @@ ws.add(Symbol('new value')); // 可以
 WeakMap
 > 只能对象（非null）和Symbol作为键名
 
-## 5.Generator生成器
+## 5. Generator生成器
 Generator是ES6提供过的一种异步编程解决方案。执行Generator函数会返回一个遍历器对象。
 ```js
 function* firstGenerator() {
@@ -141,4 +141,4 @@ const g = gen();
 g[Symbol.iterator] === g // true
 ```
 
-## 6.
+## 6. 

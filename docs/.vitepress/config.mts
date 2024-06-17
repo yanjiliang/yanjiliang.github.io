@@ -2,12 +2,13 @@ import { defineConfig } from 'vitepress'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: "Laosi Remote Web3",
-  description: "Record my transition from Web2 to Web3.",
+  title: "老四的社畜挣扎Blog",
+  description: "努力活的自我一些，摆脱企业决定个人生死的时期，记录一些乱七八糟的开发文章，以及学习笔记",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: '首页', link: '/' },
+      { text: '随想文章', link: '/articles/index' },
       { text: '英语', link: '/language/index' },
       { text: '后端', link: '/backend/index' },
       { text: '算法', link: '/algorithm/index' }
@@ -46,6 +47,14 @@ export default defineConfig({
           text: 'Web3',
           items: [
             { text: '基础知识', link: '/web3/basic/index' },
+          ]
+        }
+      ],
+      '/articles/': [
+        {
+          text: '随想文章',
+          items: [
+            {}
           ]
         }
       ]

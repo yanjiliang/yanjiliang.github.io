@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: "Laosi Remote Web3"
-  text: "Record my transition from Web2 to Web3."
+  name: "老四的社畜挣扎Blog"
+  text: "Record my development life."
   tagline: 一个社畜的挣扎记录
   actions:
     - theme: brand
@@ -13,6 +13,9 @@ hero:
     - theme: alt
       text: Web3
       link: /web3/index
+    - theme: alt
+      text: 随想文章
+      link: /articles/index
 
 features:
   - title: 技术记录
