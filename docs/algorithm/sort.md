@@ -64,6 +64,41 @@ def insert_sort(li):
 
 #### 快速排序
 
+快速排序的思路：
+- 取第一个元素P（第一个元素）
+- left\right左右两个下标位置，从right位置开始，找比P元素小的放在left的空位置，找到后，right变为空位置，然后从left开始寻找比P元素大的，放置在right位置，直至left与right相等
+- 分为左右两边，左边left放比P元素小的，右边right放比P元素大的
+- 递归完成排序
+
+时间复杂度 O(n * log(n))
+
+快速排序的问题：
+1. 最坏情况-倒序排列数据
+2. 递归
+
+```py
+# 快速排序
+def partition(data, left, right):
+    tmp = li[left]
+    while left < right:
+        while left < right and li[right] >= tmp: # 找到比tmp要小的元素
+            right -= 1 # right左移一位
+        li[left] = li[right] # 将找到的比tmp小的元素，放置在left的位置上
+        
+        while left < right and li[left] <= tmp: # 找到比tmp大的元素
+            left += 1 # left右移一位
+        li[right] = li[left] # 找到比tmp大的元素li[left]放置在right位置上
+    li[left] = tmp
+    return left # 此时left与right相等，返回当前下标
+
+def quick_sort(data, left, right):
+    if left < right:
+        mid = partition(data, left, right)
+        quick_sort(data, left, mid - 1)
+        quick_sort(data, mid + 1, right)
+        
+```
+
 #### 堆排序
 
 #### 归并排序
