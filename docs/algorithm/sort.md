@@ -225,10 +225,54 @@ def merge_sort(li, low, high):
         merge(li, low, mid, high)
 ```
 
-### 其他
+> 总结：
+> NB三人组的时间复杂度都是O(n*log(n))
+> 一般情况下，三者的运行时间排序：快速排序 < 归并排序 < 堆排序
+> 三种排序方法的缺点：
+> - 快速排序：极端情况下-倒序排列，排序效率低
+> - 归并排序：需要额外的空间开销
+> - 堆排序：三者中速度最慢
 
-#### 希尔排序
+![6中排序横向对比](../../static/images/algorithm/sort_compare.png)
 
-#### 基数排序
+## 其他
 
-#### 计数排序
+### 希尔排序
+
+希尔排序-Shell Sort是一种分组插入排序算法
+
+- 首先取一个整数d1 = n / 2,将元素分为d1个组，每组相邻量元素之间距离为d1，在各组内进行直接插入排序
+- 取第二个整数d2 = d1 / 2,重复上述分组排序过程，直到d1 = 1,即所有的元素在同一组内进行直接插入排序
+- 希尔排序每趟并不使某些元素有序，而是使整体数据越来越接近有序；最后一趟排序使得所有数据有序。
+
+```py
+def insert_sort_gap(li, gap):
+    for i in range(gap,len(li)):
+        temp = li(i) # 无序区域每次的遍历的第一个
+        j = i - gap # 是有序区域的最后一个
+        while j >= 0 and li[j] > temp: # 从右至左依次比较大小，比当前小的，则把当前右移一位
+            li(j + gap) = li(i)
+            j -= gap
+        li[j + gap] = temp # 比当前大的，则放在右边
+        
+def shell_sort(li):
+   d = len(li) // 2
+   while d >= 1:
+      insert_sort_gap(li, d)
+      d // 2
+```
+
+### 计数排序
+
+```py
+def count_sort(li, max_count = 100):
+    count = [0 for _ in range(max_count + 1)]
+    for val in li:
+        count[val] += 1
+    li.clear()
+    for idx, val in enumerate(count):
+        for i in range(val):
+            li.append(idx)
+```
+
+### 基数排序
