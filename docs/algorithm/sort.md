@@ -2,9 +2,9 @@
 
 ## 常见的排序算法
 
-### Low B 三人组
+## Low B 三人组
 
-#### 冒泡排序 Bubble Sort
+### 冒泡排序 Bubble Sort
 - 列表每两个相邻的数，如果前面的比后面打，则交换这两个数
 - 一趟顺序排序完成后，则无序区域减少一个数，有序区域增加一个数
 
@@ -31,7 +31,7 @@ def bubble_sort(li):
             return
 ```
 
-#### 选择排序
+### 选择排序
 
 - 每一趟排序记录当前最小的数，放到无序区域的第一个位置
 - 有序区和无序区，无序区最小数的位置
@@ -47,7 +47,7 @@ def select_sort(li):
             li[i],li[min_idx] = li[min_idx],li[i]
 ```
 
-#### 插入排序 O(n ^ 2)
+### 插入排序 O(n ^ 2)
 
 ```python
 def insert_sort(li):
@@ -60,9 +60,9 @@ def insert_sort(li):
         li[j + 1] = temp # 比当前大的，则放在右边
 ```
 
-### NB 三人组
+## NB 三人组
 
-#### 快速排序
+### 快速排序
 
 快速排序的思路：
 - 取第一个元素P（第一个元素）
@@ -99,9 +99,131 @@ def quick_sort(data, left, right):
         
 ```
 
-#### 堆排序
+### 堆排序
+时间复杂度：O(n * log(n))
+堆：一种特殊的完全二叉树结构
+- 大根堆：一颗完全二叉树，满足任一节点都比其孩子节点大
+- 小根堆：一颗完全二叉树，满足任一节点都比其孩子节点小
 
-#### 归并排序
+![根堆](../../static/images/algorithm/heap.png)
+
+堆排序：堆的向下调整
+
+1. 建立堆
+2. 得到堆顶元素，为最大元素
+3. 去掉堆顶，将堆的最后一个元素放到堆顶，此时通过一次向下调整重新使堆有序
+4. 向下调整完成后，堆顶元素为第二大元素
+5. 重复步骤3，直到堆变为空
+
+构造堆：先从最后一个非叶子结点开始调整
+
+先实现调整函数
+```py
+def sift(li, low, high):
+    i = low # i初始指向根节点
+    j = 2 * i + 1 # j初始位置指向根节点的左子节点
+    tmp = li[low] # 把堆顶暂存
+    while j <= high: # 说明j存在
+        if j + 1 <= high and li[j+1] > li[j]: # 当右子节点存在，并且右子节点大于左子节点
+            j = j + 1 # j取右子节点下标，即li[j]为左右子节点的最大值
+        if li[j] > tmp:
+            li[i] = li[j] # 当子节点大于tmp
+            i = j # 继续往下一层调整
+            j = 2 * i + 1 # 获取i调整后的j
+        else: # tmp大于最大子节点，则跳出循环
+            break
+    li[i] = tmp # tmp放置在i的位置上
+```
+```py
+def heap_sort(li):
+    n = len(li)
+    for i in range((n-2)//2, -1, -1): # 从最后一个非叶子节点开始
+        sift(li, i, n - 1)
+    for i in range(n-1, -1, -1):
+        li[0], li[i] = li[i], li[0] # 堆顶与最后一个互换
+        sift(li, 0, i -1) # 重新调整互换后的堆
+```
+
+> Python内置模块 -- heapq
+> - heapify(heap) 构建堆，构建的是一个小根堆
+> - heappush(heap, item)
+> - heappop(heap) 每次弹出一个当前堆最小值
+
+#### topK问题
+1. 现在有n个数，设计算法得到前K大的数 k<n
+解决思路：
+    - 排序后切片 O(n* log(n))
+    - 排序LowB三人组 O(k * n) 冒泡
+    - 堆排序 O(n * log(k))
+
+堆排序处理思路：
+- 取列表前K个元素建立一个小根堆。堆顶就是目前第K大的数
+- 依次向后遍历原列表，对于列表中的元素，如果小于堆顶，则忽略该元素，如果大于堆顶，则 将堆顶更换为该元素，并且对堆进行一次调整
+- 遍历列表所有元素后，倒序弹出堆顶
+
+```python
+# sift函数要做更改，变为构建小根堆
+def sift(li, low, high):
+    i = low # i初始指向根节点
+    j = 2 * i + 1 # j初始位置指向根节点的左子节点
+    tmp = li[low] # 把堆顶暂存
+    while j <= high: # 说明j存在
+        if j + 1 <= high and li[j+1] < li[j]: # 当右子节点存在，并且右子节点大于左子节点
+            j = j + 1 # j取右子节点下标，即li[j]为左右子节点的最大值
+        if li[j] < tmp:
+            li[i] = li[j] # 当子节点大于tmp
+            i = j # 继续往下一层调整
+            j = 2 * i + 1 # 获取i调整后的j
+        else: # tmp大于最大子节点，则跳出循环
+            break
+    li[i] = tmp # tmp放置在i的位置上
+def topk(li, k):
+    heap = li[0:k]
+    heapq.heapify(heap) # 构建小根堆
+    for i in range(k, len(li) - 1):
+        if li[i] > heap[0]:
+            heap[0] = li[i]
+            sift(heap, 0, k-1)
+    for i in range(k-1, -1, -1):
+        heap[0], heap[i] = heap[i], heap[0]
+        sift(heap, 0, i-1)
+    return heap
+```
+
+### 归并排序
+
+分解：将列表越分越小，直至分成一个元素
+终止条件：一个元素肯定是有序的
+合并：将两个有序列表归并，列表越来越大
+
+```py
+def merge(li, low, mid, high):
+    i = low
+    j = min + 1
+    ltmp = [] # 临时变量存放有序列表
+    while i <= mid and j <= high:
+        if li[i] > li[j]:
+            ltmp.append(li[i])
+            i += 1
+        else:
+            ltmp.append(li[j])
+            j += 1
+    while i <= mid:
+        ltmp.append(li[i])
+    while j <= high:
+        ltmp.append(li[j])
+        
+    li[low:high + 1] = ltmp
+```
+
+```python
+def merge_sort(li, low, high):
+    mid = (low + high) // 2
+    if low < high:
+        merge_sort(li, low, mid)
+        merge_sort(li, mid + 1, high)
+        merge(li, low, mid, high)
+```
 
 ### 其他
 
