@@ -275,4 +275,8 @@ def count_sort(li, max_count = 100):
             li.append(idx)
 ```
 
+### 桶排序
+
+
+
 ### 基数排序
