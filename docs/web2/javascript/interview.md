@@ -169,3 +169,78 @@ Husky是一个基于Node的Git钩子管理工具，用在工作流程中强制�
 - update: 远程分支更新时
 - post-receive: 接收到推送后
 - post-update: 远程分支更新后
+
+# 10. 数据类型检测
+
+- typeof: 可精准检测基本类型Number\String\Boolean\undefined有效, null,[],{}则检测为’object‘
+```js
+typeof 1 // 'number'
+typeof true // 'boolean'
+typeof 'str' // 'string'
+typeof undefined // 'undefined'
+
+typeof null // 'object'
+typeof [] // object
+typeof {} // object
+
+const fn = function() {} // () => {}
+typeof fn // 'function'
+```
+- instanceof: 内部运行机制是判断是否能在原型链上找到该类型的原型,仅能检测Array,Object,Function
+```js
+1 instanceof Number // false
+true instanceof Boolean // false
+'str' instanceof String // false
+
+undefined instanceof undefined // Uncaught TypeError: Right-hand side of 'instanceof' is not an object
+null instanceof null // Uncaught TypeError: Right-hand side of 'instanceof' is not an object
+
+[] instanceof Array // true
+{} instanceof Object // true
+
+const fn = function() {};
+fn instanceof Function // true
+
+```
+- constructor：1、判断类型。2、访问构造函数
+手动改变原型则无法准确判断类型
+```js
+1.constructor // Uncaught SyntaxError: Invalid or unexpected token
+const num = 1
+num.constructor // [Function: Number]
+num.constructor === Number // true
+
+true.constructor // [Function: Boolean]
+true.constructor === Boolean // true
+
+'str'.constructor // [Function: String]
+'str'.constructor === String // true
+
+undefined.constructor // Uncaught TypeError: Cannot read properties of undefined (reading 'constructor')
+null.constructor // Uncaught TypeError: Cannot read properties of null (reading 'constructor')
+
+[].constructor // [Function: Array]
+[].constructor === Array // true    
+
+{}.constructor // [Function: Object]
+{}.constructor === Object // true
+
+const fn = function() {}
+fn.constructor // [Function: Function]
+fn.constructor === Function // true
+```
+- Object.prototype.toString.call()：获取对象原型的toString
+```js
+Object.prototype.toString.call(1) // "[object Number]"
+Object.prototype.toString.call(true) // "[object Boolean]"
+Object.prototype.toString.call('str') // "[object String]"
+
+Object.prototype.toString.call(undefined) // "[object Undefined]"
+Object.prototype.toString.call(null) // "[object Null]"
+
+Object.prototype.toString.call([]) // "[object Array]"
+Object.prototype.toString.call({}) // "[object Object]"
+Object.prototype.toString.call(function() {}) // "[object Function]"
+```
+
+# 11
