@@ -94,3 +94,119 @@ ReactDOM.createPortal(child, container);
 
 # 8. React和React-DOM的区别？
 ReactDOM是React库的一部分，专门用于与浏览器DOM交互，包括DOM的渲染、更新和删除。
+
+# 9. 手动实现一个Schedule模拟React调度器
+```js
+let tasks = [];
+let currentTask = null;
+
+function schedule({ task, priority }) {
+    tasks.push({ task, priority });
+    tasks.sort((a, b) => a.priority - b.priority);
+}
+
+function workloop(deadline) {
+    if(tasks.length > 0 && deadline.timeRemaining > 0) {
+        currentTask = tasks.shift().task();
+        currentTask();
+        workloop(deadline);
+    } else {
+        currentTask = null;
+        requestIdleCallback(workloop);
+    }
+}
+
+requestIdleCallback(workloop);
+```
+
+# 10. HOC高阶组件的几个应用场景
+1、代码复用
+```jsx
+const withFetching = fetching => WrappedComponent => {
+    return class extends React.Component {
+        state = {
+            data: []
+        }
+    }
+    
+    async UNSAFE_componentWillMount() {
+        this.data = await fetching();
+        this.setState({ data })
+    }
+    
+    render() {
+        return <WrappedComponent {...this.props} data={this.state.data} />
+    }
+}
+
+// page-a.js
+export default withFetching(fetchData('action-movie'))(MovieList);
+// page-b.js
+export default withFetching(fetchData('comedy-movie'))(MovieList);
+// page-c.js
+export default withFetching(fetchData('love-movie'))(MovieList);
+```
+2、反向继承
+
+```jsx
+const withTiming = WrappedComponent => {
+    return class extends WrappedComponent {
+        constructor(props) {
+            super(props);
+            this.start = 0;
+            this.end = 0;
+        }
+        
+        UNSAFE_componentWillMount() {
+            super.componentWillMount && super.componentWillMount();
+            this.start = Date.now();
+        }
+        
+        componentDidMount() {
+            super.componentDidMount && super.componentDidMount();
+            this.end = Date.now();
+            console.log(`渲染时间为${this.end - this.start}ms`);
+        }
+        
+        render() {
+            return super.render();
+        }
+    }
+}
+
+class PageA extends React.Component{
+    render() {
+        return <div>hello Page a!</div>
+    }
+}
+
+export default withTiming(PageA);
+```
+3、条件渲染
+```jsx
+const withAuth = WrappedComponent => {
+    return class extends WrappedComponent {
+        constructor(props) {
+            super(props);
+            this.state = {
+                isLogin: false
+            }
+        }
+        async UNSAFE_componentWillMount() {
+            const isLogin = await getLoginStatus();
+            this.setState({
+                isLogin
+            })
+        }
+        
+        render() {
+            if(!isLogin) {
+                return <div>请先登录</div>
+            }
+            return super.render();
+        }
+    }
+}
+```
+
+
