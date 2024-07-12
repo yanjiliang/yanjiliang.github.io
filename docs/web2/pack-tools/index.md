@@ -52,6 +52,3 @@
 路由同步
     劫持iframe的pushState和replaceState，将子应用的URL同步到主应用的query中，当刷新浏览器初始化iframe时，读回子应用的url并使用iframe的history.replaceState同步
 
-
-
-
