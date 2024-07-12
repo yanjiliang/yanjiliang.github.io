@@ -243,4 +243,6 @@ Object.prototype.toString.call({}) // "[object Object]"
 Object.prototype.toString.call(function() {}) // "[object Function]"
 ```
 
-# 11
+# 11. V8引擎的垃圾回收机制
+V8引擎采用分代垃圾回收，分为新生代和老生代两部分。新生代使用Scavenge算法（从根节点开始标记所有可达对象，即存活对象，复制到一个新的空间，释放旧空间，交换新空间和旧空间角色）。老生代使用Mark-sweep算法（标记清楚）和Mark-compact算法（标记整理）。
+Mark-sweep标记存活对象，清除未存活对象。但会产生碎片化内存。Mark-compact将存活对象移至内存一端，消除内存碎片。
