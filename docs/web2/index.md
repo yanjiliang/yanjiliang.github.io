@@ -9,6 +9,8 @@ anyway,想到什么记录什么吧！
 
 先大概列个清单,刚好梳理了，方便面试
 
+- [计算机网络](./computer-network/index.md)
+
 - [JavaScript](./javascript/index.md)
 - [TypeScript](./typescript/index.md)
 - [Node](./node/index.md)
