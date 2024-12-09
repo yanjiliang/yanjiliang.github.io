@@ -101,3 +101,64 @@ export class AppModule implements NestModule {
   }
 }
 ```
+
+## Excetion filters
+
+内置异常层，负责处理应用程序中所有未处理的异常。
+
+```ts
+  // base use
+  @Get()
+  async findAll() {
+    throw new HttpException('Forbidden(message)', HttpStatus.FORBIDDEN);
+  }
+```
+
+```ts
+// forbidden.exception.ts
+export class ForbiddenException extends HttpException {
+  constructor() {
+    super("Forbidden", HttpStatus.FORBIDDEN);
+  }
+}
+```
+
+应用
+
+```ts
+  // books.controller.ts
+  @Get()
+  findAll() {
+    throw new ForbiddenException();
+  }
+```
+
+自定义异常过滤器
+
+```ts
+// http-exception.filter.ts
+import {
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
+  HttpStatus,
+} from "@nestjs/common";
+import { Request, Response } from "express";
+
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+  catch(exception: HttpException, host: ArgumentsHost) {
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    const request = ctx.getRequest<Request>();
+    const status = exception.getStatus();
+
+    response.status(status).json({
+      statusCode: status,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+    });
+  }
+}
+```
