@@ -228,3 +228,64 @@ function useEffect(fn: () => void, deps?: any[]) {
 }
 
 ```
+
+## 11. 实现一个add函数完成大数相加
+```ts
+function add(a: string, b: string){
+    let carry = 0; // 进位
+    let result = ''; // 最终结果
+    const lenA = a.length || 0;
+    const lenB = b.length || 0;
+    // 因为不知道A,B两个位数是否相等，所以从后往前开始遍历
+    while(lenA >= 0 || lenB >= 0 || carry){
+        const a1 = lenA >= 0 ? parseInt(a[lenA--], 10) : 0;
+        const b1 = lenB >= 0 ? parseInt(b[lenB--], 10) : 0;
+
+        let sum = a1 + b1 + carry;
+        carry = Math.floor(sum / 10);
+        sum = sum % 10;
+        result = result + sum;
+    }
+    return result;
+}
+```
+
+## 12. 水仙花数
+水仙花数是指一个n位数（n≥3），其每个位上的数字的n次幂之和等于它本身‌
+```ts
+    function daffodilsNumber() {
+        let result: number[] = [];
+        for(let i = 100; i < 100; i++) {
+            let unit = i % 10;
+            let ten = Math.floor(i / 10) - Math.floor(i / 100) * 10;
+            let hundred = Math.floor(i / 100)
+
+            if (i === (unit * unit * unit + ten * ten * ten + hundred * hundred * hundred)){
+                result.push(i)
+            }
+        }
+        return result;
+    }
+```
+
+## 13. 九九乘法表
+```ts
+    function multiplicationTable(){
+        let result: string[][] = [];
+
+        for(let i = 1; i <= 9; i++){
+            let idx = string[];
+            for(let j = 1; j <= i; j++){
+                const str = i + '*' + j + '=' (i*j);
+                idx.push(str)
+            }
+            result.push(idx)
+        }
+        return result;
+    }
+```
+
+## 14. 判断是否是回文字符串
+```ts
+    function is
+```

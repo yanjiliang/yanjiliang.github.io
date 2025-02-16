@@ -22,3 +22,4 @@ anyway,想到什么记录什么吧！
 - [miniProgram](./miniProgram/index.md)
 - [Prisma](./Prisma/index.md)
 - [3D](./3D/index.md)
+- [Harmony](./harmony/index.md)
